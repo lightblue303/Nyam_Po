@@ -11,7 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private var isBackground1Visible = true
+    private var currentBackgroundIndex = 0
+    private lateinit var backgrounds: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +21,16 @@ class MainActivity : AppCompatActivity() {
 
         val progressBar = findViewById<ProgressBar>(R.id.ProgressBar)
 
-        val background1 = findViewById<ImageView>(R.id.backgroundImage1)
-        val background2 = findViewById<ImageView>(R.id.backgroundImage2)
+        val background_base = findViewById<ImageView>(R.id.background_base)
+        val background_oido = findViewById<ImageView>(R.id.background_oido)
+        val background_park = findViewById<ImageView>(R.id.background_park)
+        val background_wavepark = findViewById<ImageView>(R.id.background_wavepark)
+
+        // 배경 이미지들을 순서대로 리스트에 저장
+        backgrounds = listOf(background_base, background_oido, background_park, background_wavepark)
+
         val settingButton = findViewById<ImageButton>(R.id.imageButton_setting)
-        val heroButton = findViewById<ImageButton>(R.id.imageButton_hero)
+        val haeroButton = findViewById<ImageButton>(R.id.imageButton_haero)
 
         progressBar.max = 100
         progressBar.progress = 0 // 숫자에 따라 바 길이 변경
@@ -33,16 +40,17 @@ class MainActivity : AppCompatActivity() {
                 progressBar.progress += 1
             }
         }
-        heroButton.setOnClickListener {      //해로버튼 임시 이벤트. 배경화면 변경
-            if (isBackground1Visible) {
-                background1.visibility = ImageView.GONE
-                background2.visibility = ImageView.VISIBLE
-            } else {
-                background1.visibility = ImageView.VISIBLE
-                background2.visibility = ImageView.GONE
-            }
-            isBackground1Visible = !isBackground1Visible
+        haeroButton.setOnClickListener {
+            // 모든 배경 숨김
+            backgrounds.forEach { it.visibility = ImageView.GONE }
+
+            // 다음 배경 인덱스 설정
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.size
+
+            // 현재 배경만 표시
+            backgrounds[currentBackgroundIndex].visibility = ImageView.VISIBLE
         }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
