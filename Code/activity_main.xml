@@ -8,21 +8,21 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/backgroundImage1"
+        android:id="@+id/background_base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.6"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/background_basic2" />
+        app:srcCompat="@drawable/background_base" />
 
     <ImageView
-        android:id="@+id/backgroundImage2"
+        android:id="@+id/background_oido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.6"
@@ -32,18 +32,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"
-        app:srcCompat="@drawable/oi_do" />
+        app:srcCompat="@drawable/background_oido" />
 
+    <ImageView
+        android:id="@+id/background_park"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:srcCompat="@drawable/background_park" />
+
+    <ImageView
+        android:id="@+id/background_wavepark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:srcCompat="@drawable/background_wavepark" />
 
     <ImageView
         android:id="@+id/heartIcon"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="5dp"
         android:contentDescription="Heart Icon"
-        android:src="@drawable/ic_heart"
+        android:src="@drawable/heart_icon"
         app:layout_constraintEnd_toStartOf="@+id/ProgressBar"
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,19 +78,44 @@
     <ProgressBar
         android:id="@+id/ProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="200dp"
+        android:layout_width="180dp"
         android:layout_height="20dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="44dp"
-        android:progressDrawable="@drawable/custom_progressbar"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="70dp"
+        android:progressDrawable="@drawable/progressbar_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/leaf_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="92dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/leaf_icon" />
 
     <!-- 원본 비율 -->
     <!-- android:layout_width="187dp" -->
     <!-- android:layout_height="261dp" -->
+
+    <TextView
+        android:id="@+id/numberText"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="97dp"
+        android:background="@drawable/rounded_number_box"
+        android:gravity="center"
+        android:text="7"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/leaf_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
-        android:id="@+id/imageButton_hero"
+        android:id="@+id/imageButton_haero"
         android:layout_width="227dp"
         android:layout_height="301dp"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -76,22 +126,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.812"
-        app:srcCompat="@drawable/herotoro" />
+        app:srcCompat="@drawable/haero" />
 
     <ImageButton
         android:id="@+id/imageButton_setting"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="설정 아이콘"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101"
-        app:srcCompat="@drawable/setting" />
+        app:layout_constraintVertical_bias="0.013"
+        app:srcCompat="@drawable/setting_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
