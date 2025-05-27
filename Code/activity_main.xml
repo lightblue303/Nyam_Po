@@ -15,10 +15,10 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/background_base" />
 
     <ImageView
@@ -118,7 +118,7 @@
         android:id="@+id/imageButton_haero"
         android:layout_width="227dp"
         android:layout_height="301dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@android:color/transparent"
         android:contentDescription="마스코트"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,7 +132,7 @@
         android:id="@+id/imageButton_setting"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@android:color/transparent"
         android:contentDescription="설정 아이콘"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -142,6 +142,47 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.013"
         app:srcCompat="@drawable/setting_icon" />
+
+    <ImageButton
+        android:id="@+id/imageButton_calendar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="달력 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
+        app:layout_constraintVertical_bias="0.16"
+        app:srcCompat="@drawable/calendar_icon" />
+
+    <ImageButton
+        android:id="@+id/imageButton_walk"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="걷기 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
+        app:layout_constraintVertical_bias="0.3"
+        app:srcCompat="@drawable/walk_icon" />
+
+    <ImageView
+        android:id="@+id/check_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageButton_calendar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageButton_calendar"
+        app:layout_constraintTop_toTopOf="@+id/imageButton_calendar"
+        app:srcCompat="@drawable/check_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
