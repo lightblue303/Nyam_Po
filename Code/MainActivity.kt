@@ -29,17 +29,15 @@ class MainActivity : AppCompatActivity() {
         // 배경 이미지들을 순서대로 리스트에 저장
         backgrounds = listOf(background_base, background_oido, background_park, background_wavepark)
 
-        val settingButton = findViewById<ImageButton>(R.id.imageButton_setting)
         val haeroButton = findViewById<ImageButton>(R.id.imageButton_haero)
+        val settingButton = findViewById<ImageButton>(R.id.imageButton_setting)
+        val walkButton = findViewById<ImageButton>(R.id.imageButton_walk)
+        val calendarButton = findViewById<ImageButton>(R.id.imageButton_calendar)
+        val checkIcon = findViewById<ImageView>(R.id.check_icon)
 
         progressBar.max = 100
         progressBar.progress = 0 // 숫자에 따라 바 길이 변경
 
-        settingButton.setOnClickListener {      //설정버튼 임시 이벤트. Progress bar +
-            if (progressBar.progress < progressBar.max) {
-                progressBar.progress += 1
-            }
-        }
         haeroButton.setOnClickListener {
             // 모든 배경 숨김
             backgrounds.forEach { it.visibility = ImageView.GONE }
@@ -49,6 +47,25 @@ class MainActivity : AppCompatActivity() {
 
             // 현재 배경만 표시
             backgrounds[currentBackgroundIndex].visibility = ImageView.VISIBLE
+        }
+
+        settingButton.setOnClickListener {      //설정버튼 임시 이벤트. Progress bar +
+            if (progressBar.progress < progressBar.max) {
+                progressBar.progress += 1
+            }
+        }
+
+        walkButton.setOnClickListener {      //걷기버튼 임시 이벤트. Progress bar -
+            if (progressBar.progress < progressBar.max) {
+                progressBar.progress -= 1
+            }
+        }
+
+        calendarButton.setOnClickListener {      //달력버튼 임시 이벤트.
+            checkIcon.visibility =
+                if (checkIcon.visibility == ImageView.VISIBLE)
+                    ImageView.GONE
+                else ImageView.VISIBLE
         }
 
 
