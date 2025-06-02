@@ -11,59 +11,82 @@
         android:id="@+id/background_base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.6"
         android:scaleType="centerCrop"
+        android:alpha="0.6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/background_base" />
 
     <ImageView
         android:id="@+id/background_oido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.6"
         android:scaleType="centerCrop"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
         app:srcCompat="@drawable/background_oido" />
 
     <ImageView
         android:id="@+id/background_park"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.6"
         android:scaleType="centerCrop"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
         app:srcCompat="@drawable/background_park" />
 
     <ImageView
         android:id="@+id/background_wavepark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.6"
         android:scaleType="centerCrop"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
         app:srcCompat="@drawable/background_wavepark" />
 
     <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user_icon" />
+
+    <TextView
+        android:id="@+id/userText"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_number_box"
+        android:fontFamily="@font/cafe24surround"
+        android:gravity="center"
+        android:text="사용자"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/heartIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="65dp"
         android:layout_marginEnd="5dp"
@@ -75,13 +98,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="#F44336" />
 
+    <TextView
+        android:id="@+id/heartNumberText"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/cafe24surround"
+        android:gravity="center"
+        android:text="13"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/heartIcon"
+        app:layout_constraintEnd_toEndOf="@+id/heartIcon"
+        app:layout_constraintStart_toStartOf="@+id/heartIcon"
+        app:layout_constraintTop_toTopOf="@+id/heartIcon" />
+
     <ProgressBar
         android:id="@+id/ProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="180dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="150dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="72dp"
         android:progressDrawable="@drawable/progressbar_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -90,7 +128,7 @@
         android:id="@+id/leaf_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,16 +140,42 @@
     <!-- android:layout_height="261dp" -->
 
     <TextView
-        android:id="@+id/numberText"
+        android:id="@+id/leafNumberText"
         android:layout_width="50dp"
         android:layout_height="30dp"
-        android:layout_marginTop="97dp"
+        android:layout_marginTop="105dp"
         android:background="@drawable/rounded_number_box"
+        android:fontFamily="@font/cafe24surround"
         android:gravity="center"
-        android:text="7"
+        android:text="155"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/leaf_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/money_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.247"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/money_icon" />
+
+    <TextView
+        android:id="@+id/moneyNumberText"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="105dp"
+        android:background="@drawable/rounded_number_box"
+        android:fontFamily="@font/cafe24surround"
+        android:gravity="center"
+        android:text="1820"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/money_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -137,11 +201,26 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.013"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/setting_icon" />
+
+    <ImageButton
+        android:id="@+id/imageButton_mail"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="메일 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton_calendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/mail_icon" />
 
     <ImageButton
         android:id="@+id/imageButton_calendar"
@@ -155,23 +234,8 @@
         app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
-        app:layout_constraintVertical_bias="0.16"
+        app:layout_constraintVertical_bias="0.115"
         app:srcCompat="@drawable/calendar_icon" />
-
-    <ImageButton
-        android:id="@+id/imageButton_walk"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="걷기 아이콘"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
-        app:layout_constraintVertical_bias="0.3"
-        app:srcCompat="@drawable/walk_icon" />
 
     <ImageView
         android:id="@+id/check_icon"
@@ -184,5 +248,101 @@
         app:layout_constraintTop_toTopOf="@+id/imageButton_calendar"
         app:srcCompat="@drawable/check_icon" />
 
+    <ImageButton
+        android:id="@+id/imageButton_walk"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="걷기 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_calendar"
+        app:layout_constraintVertical_bias="0.004"
+        app:srcCompat="@drawable/walk_icon" />
+
+    <FrameLayout
+        android:id="@+id/feedButtonContainer"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButton_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_number_box"
+            android:contentDescription="먹이주기 버튼"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/text_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/cafe24surround"
+            android:gravity="center"
+            android:text="먹이주기"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/feed_icon_leaf"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginEnd="113dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/leaf_icon" />
+
+    <FrameLayout
+        android:id="@+id/moneyButtonContainer"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="30dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButton_money"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_number_box"
+            android:contentDescription="시루 버튼"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/text_money"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/cafe24surround"
+            android:gravity="center"
+            android:text="시루"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/money_icon_bottom"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/money_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
