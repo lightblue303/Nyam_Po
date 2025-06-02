@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_number_box"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_calendar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cafe24surround"
+            android:text="출석체크"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:gravity="center" />
+
+        <CalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/button_attend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cafe24surround"
+            android:text="출석하기"
+            android:layout_marginTop="15dp" />
+
+        <Button
+            android:id="@+id/button_reset_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="출석 초기화 (테스트용)"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- 우측 상단 오버레이 닫기 버튼 -->
+    <ImageButton
+        android:id="@+id/button_close_popup"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|top"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:contentDescription="닫기"
+        android:src="@drawable/close_icon" />
+
+</FrameLayout>
