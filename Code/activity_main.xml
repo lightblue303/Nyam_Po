@@ -58,6 +58,18 @@
         app:srcCompat="@drawable/background_wavepark" />
 
     <ImageView
+        android:id="@+id/background_tuk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background_tuk" />
+
+    <ImageView
         android:id="@+id/userImage"
         android:layout_width="65dp"
         android:layout_height="65dp"
@@ -74,7 +86,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_number_box"
+        android:background="@drawable/rounded_box"
         android:fontFamily="@font/cafe24surround"
         android:gravity="center"
         android:text="사용자"
@@ -144,7 +156,7 @@
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginTop="105dp"
-        android:background="@drawable/rounded_number_box"
+        android:background="@drawable/rounded_box"
         android:fontFamily="@font/cafe24surround"
         android:gravity="center"
         android:text="155"
@@ -169,7 +181,7 @@
         android:layout_width="90dp"
         android:layout_height="30dp"
         android:layout_marginTop="105dp"
-        android:background="@drawable/rounded_number_box"
+        android:background="@drawable/rounded_box"
         android:fontFamily="@font/cafe24surround"
         android:gravity="center"
         android:text="1820"
@@ -183,7 +195,7 @@
         android:layout_width="227dp"
         android:layout_height="301dp"
         android:background="@android:color/transparent"
-        android:contentDescription="마스코트"
+        android:contentDescription="해로"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -193,15 +205,29 @@
         app:srcCompat="@drawable/haero" />
 
     <ImageButton
+        android:id="@+id/imageButton_tino"
+        android:layout_width="227dp"
+        android:layout_height="301dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="티노"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.812"
+        app:srcCompat="@drawable/tino" />
+
+    <ImageButton
         android:id="@+id/imageButton_setting"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@android:color/transparent"
         android:contentDescription="설정 아이콘"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -219,7 +245,7 @@
         app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/mail_icon" />
 
     <ImageButton
@@ -234,7 +260,7 @@
         app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton_setting"
-        app:layout_constraintVertical_bias="0.115"
+        app:layout_constraintVertical_bias="0.118"
         app:srcCompat="@drawable/calendar_icon" />
 
     <ImageView
@@ -252,7 +278,7 @@
         android:id="@+id/imageButton_walk"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:contentDescription="걷기 아이콘"
         android:scaleType="fitXY"
@@ -264,35 +290,78 @@
         app:layout_constraintVertical_bias="0.004"
         app:srcCompat="@drawable/walk_icon" />
 
+    <ImageButton
+        android:id="@+id/imageButton_closet"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="옷장 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_calendar"
+        app:layout_constraintVertical_bias="0.162"
+        app:srcCompat="@drawable/closet_icon" />
+
+    <!-- money 아이콘 앞으로 나오게 하기 위해서 FrameLayout 사용-->
     <FrameLayout
-        android:id="@+id/feedButtonContainer"
         android:layout_width="120dp"
         android:layout_height="70dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 시루 버튼 -->
+        <Button
+            android:id="@+id/button_money"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_leaf_money"
+            android:gravity="center"
+            android:text="시루"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:fontFamily="@font/cafe24surround"
+            android:contentDescription="시루 버튼" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/money_icon_bottom"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="113dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/money_icon" />
+
+    <!-- leaf 아이콘 앞으로 나오게 하기 위해서 FrameLayout 사용-->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.976">
 
-        <ImageButton
-            android:id="@+id/imageButton_feed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_number_box"
-            android:contentDescription="먹이주기 버튼"
-            android:scaleType="fitXY" />
-
-        <TextView
-            android:id="@+id/text_feed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/cafe24surround"
+        <!-- 먹이주기 버튼 -->
+        <Button
+            android:id="@+id/button_feed"
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            android:background="@drawable/button_leaf_money"
             android:gravity="center"
             android:text="먹이주기"
             android:textColor="#000000"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:fontFamily="@font/cafe24surround"
+            android:contentDescription="먹이주기 버튼" />
     </FrameLayout>
 
     <ImageView
@@ -304,45 +373,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/leaf_icon" />
-
-    <FrameLayout
-        android:id="@+id/moneyButtonContainer"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="30dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButton_money"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_number_box"
-            android:contentDescription="시루 버튼"
-            android:scaleType="fitXY" />
-
-        <TextView
-            android:id="@+id/text_money"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/cafe24surround"
-            android:gravity="center"
-            android:text="시루"
-            android:textColor="#000000"
-            android:textSize="22sp" />
-    </FrameLayout>
-
-    <ImageView
-        android:id="@+id/money_icon_bottom"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/money_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
