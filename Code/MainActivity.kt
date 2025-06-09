@@ -1,102 +1,138 @@
 package com.example.nyampo
 
-import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.sql.Date
+import com.example.nyampo.ui.AttendanceDialog
+import com.example.nyampo.ui.ClosetDialog
+import com.example.nyampo.ui.FeedDialog
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentBackgroundIndex = 0
-    private lateinit var backgrounds: List<ImageView>
+    private var leafCount = 0
+    private var moneyCount = 0
+    private val leafTextView: TextView by lazy { findViewById(R.id.leafNumberText) }
+    private val moneyTextView: TextView by lazy { findViewById(R.id.moneyNumberText) }
+    private val checkIcon: ImageView by lazy { findViewById(R.id.check_icon) }
+
+    private val mascotViews: List<ImageButton> by lazy {
+        listOf(
+            findViewById(R.id.imageButton_haero),
+            findViewById(R.id.imageButton_tino)
+        )
+    }
+
+    private val backgrounds: List<ImageView> by lazy {
+        listOf(
+            findViewById(R.id.background_base),
+            findViewById(R.id.background_oido),
+            findViewById(R.id.background_park),
+            findViewById(R.id.background_wavepark),
+            findViewById(R.id.background_tuk)
+        )
+    }
+
+    private lateinit var prefs: SharedPreferences
+
+    private val PREFS_NAME = "GamePrefs"
+    private val KEY_LEAF = "leafCount"
+    private val KEY_MONEY = "moneyCount"
+    private val KEY_MASCOT = "selectedMascotIndex"
+    private val KEY_BACKGROUND = "selectedBackgroundIndex"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        leafCount = prefs.getInt(KEY_LEAF, 155)
+        moneyCount = prefs.getInt(KEY_MONEY, 1820)
+
+
+        val savedMascotIndex = prefs.getInt(KEY_MASCOT, 0)
+        changeMascot(savedMascotIndex)
+
+
+        val savedBackgroundIndex = prefs.getInt(KEY_BACKGROUND, 0)
+        changeBackground(savedBackgroundIndex, backgrounds)
+
+        leafTextView.text = leafCount.toString()
+        moneyTextView.text = moneyCount.toString()
+
         val progressBar = findViewById<ProgressBar>(R.id.ProgressBar)
-
-        val background_base = findViewById<ImageView>(R.id.background_base)
-        val background_oido = findViewById<ImageView>(R.id.background_oido)
-        val background_park = findViewById<ImageView>(R.id.background_park)
-        val background_wavepark = findViewById<ImageView>(R.id.background_wavepark)
-
-        // 배경 이미지들을 순서대로 리스트에 저장
-        backgrounds = listOf(background_base, background_oido, background_park, background_wavepark)
+        progressBar.max = 100
+        progressBar.progress = 0
 
         val haeroButton = findViewById<ImageButton>(R.id.imageButton_haero)
+        val tinoButton = findViewById<ImageButton>(R.id.imageButton_tino)
+
         val settingButton = findViewById<ImageButton>(R.id.imageButton_setting)
-        val walkButton = findViewById<ImageButton>(R.id.imageButton_walk)
         val calendarButton = findViewById<ImageButton>(R.id.imageButton_calendar)
-        val checkIcon = findViewById<ImageView>(R.id.check_icon)
+        val walkButton = findViewById<ImageButton>(R.id.imageButton_walk)
+        val closetButton = findViewById<ImageButton>(R.id.imageButton_closet)
+        val feedButton = findViewById<Button>(R.id.button_feed)
+        val moneyButton = findViewById<Button>(R.id.button_money)
 
-        val feedButton = findViewById<ImageButton>(R.id.imageButton_feed)
-        val moneyButton = findViewById<ImageButton>(R.id.imageButton_money)
+        // 출석 여부 체크 아이콘 초기 상태
+        val attendancePrefs = getSharedPreferences("AttendancePrefs", Context.MODE_PRIVATE)
+        val todayKey = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(System.currentTimeMillis())
+        checkIcon.visibility = if (attendancePrefs.getBoolean(todayKey, false)) View.VISIBLE else View.GONE
 
-        progressBar.max = 100
-        progressBar.progress = 0 // 숫자에 따라 바 길이 변경
-
-        haeroButton.setOnClickListener {
-            // 모든 배경 숨김
-            backgrounds.forEach {
-                it.clearAnimation()
-                it.visibility = View.GONE
-                it.alpha = 0.6f
-            }
-
-            // 다음 배경 인덱스 설정
-            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.size
-
-            // 현재 배경만 표시하며 fade-in 애니메이션 적용
-            backgrounds[currentBackgroundIndex].apply {
-                alpha = 0f
-                visibility = View.VISIBLE
-                animate().alpha(0.6f).setDuration(500).start()
-            }
-        }
-
-        settingButton.setOnClickListener {      //설정버튼 임시 이벤트. Progress bar +
-            if (progressBar.progress < progressBar.max) {
-                progressBar.progress += 1
-            }
-        }
-
-        walkButton.setOnClickListener {      //걷기버튼 임시 이벤트. Progress bar -
-            if (progressBar.progress <= progressBar.max) {
-                progressBar.progress -= 1
-            }
-        }
-
-        calendarButton.setOnClickListener {      //달력버튼 임시 이벤트.
-            showCustomCalendarDialog()
-        }
-
-        feedButton.setOnClickListener {         // 먹이주기 임시 이벤트
+        haeroButton.setOnClickListener {  /* 해로 버튼 클릭 처리 */
             showFloatingHearts()
-            if (progressBar.progress < progressBar.max) {
-                progressBar.progress += 1
-            }
-
         }
 
-        moneyButton.setOnClickListener {         // 시루버튼 임시 이벤트
+        tinoButton.setOnClickListener {  /* 티노 버튼 클릭 처리 */
+            showFloatingHearts()
+        }
 
+        settingButton.setOnClickListener {
+            com.example.nyampo.ui.SettingDialog.show(this)
+        }
+
+        walkButton.setOnClickListener {
+            if (progressBar.progress > 0) progressBar.progress -= 1
+        }
+
+        calendarButton.setOnClickListener {
+            AttendanceDialog.show(this, checkIcon) {
+                FeedDialog.showGetFeedPopup(this) { gained ->
+                    leafCount += gained
+                    leafTextView.text = leafCount.toString()
+                    prefs.edit().putInt(KEY_LEAF, leafCount).apply()
+                }
+            }
+        }
+
+        closetButton.setOnClickListener {
+            ClosetDialog.show(this, ::changeMascot, { idx -> changeBackground(idx, backgrounds) }, backgrounds)
+        }
+
+        feedButton.setOnClickListener {
+            FeedDialog.showFeedPopup(this, leafCount) { newLeaf, rewardMoney, reward ->
+                showFloatingHearts()
+                leafCount = newLeaf
+                moneyCount += rewardMoney
+                leafTextView.text = leafCount.toString()
+                moneyTextView.text = moneyCount.toString()
+                prefs.edit().putInt(KEY_LEAF, leafCount).putInt(KEY_MONEY, moneyCount).apply()
+                if (progressBar.progress < progressBar.max) progressBar.progress += 1
+            }
+        }
+
+        moneyButton.setOnClickListener {
+            // 시루 버튼 처리 (필요 시 구현)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -106,99 +142,65 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showCustomCalendarDialog() {
-        val dialog = Dialog(this)
-        val view = layoutInflater.inflate(R.layout.dialog_calendar, null)
-        dialog.setContentView(view)
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val calendarView = view.findViewById<CalendarView>(R.id.calendar_view)
-        val attendBtn = view.findViewById<Button>(R.id.button_attend)
-        val resetBtn = view.findViewById<Button>(R.id.button_reset_attendance)
-        val closeBtn = view.findViewById<ImageButton>(R.id.button_close_popup)
-        val checkIcon = findViewById<ImageView>(R.id.check_icon)
-
-        val prefs = getSharedPreferences("AttendancePrefs", Context.MODE_PRIVATE)
-        val todayMillis = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
-        val todayKey = dateFormat.format(Date(todayMillis))
-
-        calendarView.date = todayMillis
-        calendarView.minDate = todayMillis
-        calendarView.maxDate = todayMillis
-        calendarView.setOnTouchListener { _, _ -> true }
-
-        var alreadyChecked = prefs.getBoolean(todayKey, false)
-
-        fun updateAttendanceUI() {
-            alreadyChecked = prefs.getBoolean(todayKey, false)
-            if (alreadyChecked) {
-                attendBtn.text = "✅ 출석 완료"
-                attendBtn.isEnabled = false
-                checkIcon.visibility = View.VISIBLE
+    private fun changeMascot(index: Int) {
+        mascotViews.forEachIndexed { i, view ->
+            if (i == index) {
+                view.alpha = 0f
+                view.visibility = View.VISIBLE
+                view.animate().alpha(1f).setDuration(300).start()
             } else {
-                attendBtn.text = "출석하기"
-                attendBtn.isEnabled = true
-                checkIcon.visibility = View.GONE
+                view.visibility = View.GONE
             }
         }
-
-        updateAttendanceUI()
-
-        attendBtn.setOnClickListener {
-            prefs.edit().putBoolean(todayKey, true).apply()
-            Toast.makeText(this, "출석 완료! 🎉", Toast.LENGTH_SHORT).show()
-            updateAttendanceUI()
-        }
-
-        resetBtn.setOnClickListener {
-            prefs.edit().clear().apply()
-            Toast.makeText(this, "출석 데이터 초기화 완료", Toast.LENGTH_SHORT).show()
-            updateAttendanceUI()
-        }
-
-        closeBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
+        prefs.edit().putInt(KEY_MASCOT, index).apply()
     }
 
+    private fun changeBackground(index: Int, allBackgrounds: List<ImageView>) {
+        allBackgrounds.forEachIndexed { i, bg ->
+            if (i == index) {
+                bg.alpha = 0f
+                bg.visibility = View.VISIBLE
+                bg.animate().alpha(0.6f).setDuration(300).start()
+            } else {
+                bg.visibility = View.GONE
+            }
+        }
+        prefs.edit().putInt(KEY_BACKGROUND, index).apply()
+    }
 
     private fun showFloatingHearts() {
         val rootLayout = findViewById<ConstraintLayout>(R.id.main)
-        val haero = findViewById<ImageButton>(R.id.imageButton_haero)
 
-        val heartCount = 10
+        val currentMascot = mascotViews.find { it.visibility == View.VISIBLE } ?: return
 
-        for (i in 0 until heartCount) {
-            val heart = ImageView(this)
-            heart.setImageResource(R.drawable.heart_icon)
-            heart.layoutParams = ConstraintLayout.LayoutParams(80, 80)
-            heart.setColorFilter(android.graphics.Color.RED)
+        repeat(10) {
+            val heart = ImageView(this).apply {
+                setImageResource(R.drawable.heart_icon)
+                layoutParams = ConstraintLayout.LayoutParams(80, 80)
+                setColorFilter(android.graphics.Color.RED)
+            }
 
-            // X, Y 퍼짐 범위 확장
-            val randomXOffset = (-150..150).random()
-            val randomYOffset = (-80..80).random()
+            val xOffset = (-150..150).random()
+            val yOffset = (-80..80).random()
 
-            heart.x = haero.x + haero.width / 2 - 40 + randomXOffset
-            heart.y = haero.y - 60 + randomYOffset
+            heart.x = currentMascot.x + currentMascot.width / 2 - 40 + xOffset
+            heart.y = currentMascot.y - 60 + yOffset
 
             rootLayout.addView(heart)
 
-            val randomRotation = (-30..30).random().toFloat()
-            val randomScale = Random.nextFloat() * (1.3f - 0.7f) + 0.7f
+            val rotation = (-30..30).random().toFloat()
+            val scale = Random.nextFloat() * (1.3f - 0.7f) + 0.7f
 
             heart.animate()
                 .translationYBy(-400f)
                 .alpha(0f)
-                .rotationBy(randomRotation)
-                .scaleX(randomScale)
-                .scaleY(randomScale)
+                .rotationBy(rotation)
+                .scaleX(scale)
+                .scaleY(scale)
                 .setDuration(1800)
                 .withEndAction { rootLayout.removeView(heart) }
                 .start()
         }
     }
+
 }
