@@ -117,7 +117,7 @@
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/cafe24surround"
         android:gravity="center"
-        android:text="13"
+        android:text="1"
         android:textColor="#000000"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/heartIcon"
@@ -159,7 +159,7 @@
         android:background="@drawable/rounded_box"
         android:fontFamily="@font/cafe24surround"
         android:gravity="center"
-        android:text="155"
+        android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/leaf_icon"
@@ -184,7 +184,7 @@
         android:background="@drawable/rounded_box"
         android:fontFamily="@font/cafe24surround"
         android:gravity="center"
-        android:text="1820"
+        android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/money_icon"
@@ -306,7 +306,39 @@
         app:layout_constraintVertical_bias="0.162"
         app:srcCompat="@drawable/closet_icon" />
 
+    <ImageButton
+        android:id="@+id/imageButton_qr"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="QR 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.202"
+        app:srcCompat="@drawable/question_mark_icon" />
+
     <!-- money 아이콘 앞으로 나오게 하기 위해서 FrameLayout 사용-->
+
+    <ImageButton
+        android:id="@+id/imageButton_ad"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="광고 아이콘"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_qr"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ad_icon" />
+
     <FrameLayout
         android:layout_width="120dp"
         android:layout_height="70dp"
