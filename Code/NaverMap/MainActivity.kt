@@ -45,15 +45,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
+        initMapView() // 지도 초기화 함수 호출
 
         // FusedLocationSource 는 지자기, 가속도 센서를 활용해 최적의 위치 정보를 반환하는 구현체
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
-        // 허가를 받았다면 기기를 통해 맵 띄우고, 받지 않았다면 위치 정보 수집 허용 요청
+        // 허가를 받았다면 기기를 통해 맵 띄우고, 받지 않았다면 위치 정보 수집 허용 요청 후, 맵 띄우기
         if (hasPermission()){
-            initMapView()
+            onMapReady(naverMap)
         } else {
             ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
+            if (hasPermission()){
+                onMapReady(naverMap)
+            }
         }
     }
 
@@ -63,18 +67,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         this.naverMap = naverMap
         naverMap.locationSource = locationSource
         naverMap.uiSettings.isLocationButtonEnabled = true // 현재 위치를 아이콘으로 표시할 지 여부
+
         // 움직임 시, 초기화 되는 설정은 방향이 정해지지 않고 현재 위치만 표시하는 None 상태
         if (::naverMap.isInitialized){
             naverMap.locationTrackingMode = LocationTrackingMode.None
         }
-        naverMap.locationTrackingMode = LocationTrackingMode.Follow
-
-        naverMap.setOnMapLongClickListener{point, coord -> // 네이버 지도 화면을 길게 클릭했을 때, 클릭 지점의 위도, 경도 표시
-            Toast.makeText(
-                this, "${coord.latitude}, ${coord.longitude}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        naverMap.locationTrackingMode = LocationTrackingMode.Follow // 현재 위치를 나타내는 파란 점의 기본 상태 (Follow)
+        
         val marker_TUK = Marker()
         marker_TUK.position = LatLng(37.34003500120548, 126.73351773396644) // 한국 공학 대학교의 마커
         marker_TUK.captionText = "한국공학대학교"
@@ -162,7 +161,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return true
     }
-
     // 사용자의 위치 정보 이용 권한 허용 여부에 따른 결과 함수
     override fun onRequestPermissionsResult(
         requestCode: Int,
