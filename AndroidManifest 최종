@@ -53,6 +53,12 @@
             android:value="qtel1yhbs3"/>
         <activity android:name=".AdminActivity"/>
 
+        <!-- 기타 액티비티 등록 -->
+        <activity android:name=".admin.AdminLoginActivity" />
+        <activity android:name=".admin.AdminActivity" />
+
     </application>
+
+
 
 </manifest>
