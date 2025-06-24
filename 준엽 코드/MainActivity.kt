@@ -27,12 +27,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 
-
 class MainActivity : AppCompatActivity() {
 
     private var leafCount = 0
     private var moneyCount = 0
-    private var levelCount=1
+    private var levelCount = 1
     private lateinit var prefs: SharedPreferences
     private lateinit var userId: String
 
@@ -43,9 +42,13 @@ class MainActivity : AppCompatActivity() {
     private val KEY_MASCOT = "selectedMascotIndex"
     private val KEY_BACKGROUND = "selectedBackgroundIndex"
 
+    // ------------------------------ Notice 관련 추가 ------------------------------
+    private val noticeTextView: TextView by lazy { findViewById(R.id.noticeTextView) }
+    // ---------------------------------------------------------------------------
+
     private val leafTextView: TextView by lazy { findViewById(R.id.leafNumberText) }
     private val moneyTextView: TextView by lazy { findViewById(R.id.moneyNumberText) }
-    private val levelTextView:TextView by lazy {findViewById(R.id.heartNumberText)}
+    private val levelTextView: TextView by lazy { findViewById(R.id.heartNumberText) }
     private val checkIcon: ImageView by lazy { findViewById(R.id.check_icon) }
     private val userText: TextView by lazy { findViewById(R.id.userText) }
 
@@ -66,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.background_tuk)
         )
     }
+
     // Firebase reference for current user
     private val userRef by lazy {
         FirebaseDatabase
@@ -73,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             .getReference("users")
             .child(userId)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -81,18 +86,21 @@ class MainActivity : AppCompatActivity() {
         prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         userId = intent.getStringExtra("userId") ?: ""
 
+        // --------- 공지사항 실시간 반영 리스너 호출 -------------
+        observeNotice()
+        // -----------------------------------------------------
+
         if (userId == "admin") {
             startActivity(Intent(this, AdminActivity::class.java))
             finish()
             return
         }
 
-
-        fetchUserFeedAndMoney() // ✅ 중요: Firebase에서 값 가져오기
+        fetchUserFeedAndMoney()
         checkAndUnlockCharacter()
         fetchNickname()
         showWelcomePopupIfNeeded()
-        observeUserData() //캐릭터, 배경, 닉네임, 출석 팝업, 리스너 등 설정함
+        observeUserData()
 
         val mascotFromIntent = intent.getStringExtra("selected_mascot")
         if (mascotFromIntent != null) {
@@ -103,8 +111,8 @@ class MainActivity : AppCompatActivity() {
             }
             changeMascot(mascotIndex)
             prefs.edit().putInt(KEY_MASCOT, mascotIndex).apply()
-        }else {
-            // ✅ selectedCharacter 기준 초기화
+        } else {
+            // selectedCharacter 기준 초기화
             val userRef = FirebaseDatabase.getInstance("https://nyampo-7d71d-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("users").child(userId)
 
@@ -113,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 val mascotIndex = when (selected) {
                     "hero" -> 0
                     "toro" -> 1
-                    else -> 2 // fallback (예: tino)
+                    else -> 2
                 }
                 changeMascot(mascotIndex)
                 prefs.edit().putInt(KEY_MASCOT, mascotIndex).apply()
@@ -127,8 +135,6 @@ class MainActivity : AppCompatActivity() {
         val progressBar = findViewById<ProgressBar>(R.id.ProgressBar)
         progressBar.max = 10
         progressBar.progress = 0
-
-
 
         // --- 버튼 및 UI 설정 ---
         val haeroButton = findViewById<ImageButton>(R.id.imageButton_haero)
@@ -199,7 +205,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         calendarButton.setOnClickListener {
-            AttendanceDialog.show(this, userId,checkIcon) {
+            AttendanceDialog.show(this, userId, checkIcon) {
                 FeedDialog.showGetFeedPopup(this) { gained ->
                     leafCount += gained
                     leafTextView.text = leafCount.toString()
@@ -271,27 +277,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ----------------------------------------------------------
+    // 실시간 공지사항 리스너 : notice/latest 경로에서 가져와서 텍스트뷰에 표시
     private fun observeNotice() {
         val noticeRef = FirebaseDatabase.getInstance("https://nyampo-7d71d-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("notice").child("latest")
 
         noticeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val title     = snapshot.child("title").getValue(String::class.java) ?: ""
-                val body      = snapshot.child("body").getValue(String::class.java) ?: ""
-                val timestamp = snapshot.child("timestamp").getValue(String::class.java) ?: ""
-
-                AlertDialog.Builder(this@MainActivity)
-                    .setTitle("공지사항: $title")
-                    .setMessage("$body\n\n작성시각: $timestamp")
-                    .setPositiveButton("확인", null)
-                    .show()
+                // title, body, timestamp로 저장되어 있다면 body만 표시 (원하면 조합 가능)
+                val body = snapshot.child("body").getValue(String::class.java) ?: ""
+                noticeTextView.text = if (body.isNotBlank()) body else "공지사항 없음"
             }
-            override fun onCancelled(error: DatabaseError) { /* ignore */ }
+            override fun onCancelled(error: DatabaseError) {
+                noticeTextView.text = "공지 불러오기 실패"
+            }
         })
     }
-
-
+    // ----------------------------------------------------------
 
     private fun changeMascot(index: Int) {
         mascotViews.forEachIndexed { i, view ->
@@ -363,11 +366,11 @@ class MainActivity : AppCompatActivity() {
         userRef.get().addOnSuccessListener { snapshot ->
             val feed = snapshot.child("feed").getValue(Int::class.java) ?: 0
             val money = snapshot.child("money").getValue(Int::class.java) ?: 0
-            val level= snapshot.child("level").getValue(Int::class.java) ?: 0
+            val level = snapshot.child("level").getValue(Int::class.java) ?: 0
 
             leafCount = feed
             moneyCount = money
-            levelCount=level
+            levelCount = level
 
             leafTextView.text = leafCount.toString()
             moneyTextView.text = moneyCount.toString()
@@ -382,20 +385,20 @@ class MainActivity : AppCompatActivity() {
             Log.e("Firebase", "먹이/머니 불러오기 실패: ${it.message}")
         }
     }
+
     private fun observeUserData() {
         val userRef = FirebaseDatabase.getInstance("https://nyampo-7d71d-default-rtdb.asia-southeast1.firebasedatabase.app")
             .getReference("users").child(userId)
 
         userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // 실시간으로 먹이, 머니, 레벨 동기화
                 val feed = snapshot.child("feed").getValue(Int::class.java) ?: 0
                 val money = snapshot.child("money").getValue(Int::class.java) ?: 0
                 val level = snapshot.child("level").getValue(Int::class.java) ?: 1
 
                 leafCount = feed
                 moneyCount = money
-                levelCount=level
+                levelCount = level
 
                 leafTextView.text = leafCount.toString()
                 moneyTextView.text = moneyCount.toString()
@@ -440,7 +443,6 @@ class MainActivity : AppCompatActivity() {
             val isNewUser =
                 snapshot.child("firstLoginPopupShown").getValue(Boolean::class.java) != true
 
-
             if (isNewUser) {
                 showCustomPopup(R.layout.dialog_welcome_popup) {
                     // 먹이 5개 추가
@@ -452,7 +454,6 @@ class MainActivity : AppCompatActivity() {
                     val referral = snapshot.child("referral").getValue(String::class.java)
                     if (!referral.isNullOrBlank()) {
                         showCustomPopup(R.layout.dialog_referral_popup) {
-                            // 추천인 입력 시 추가 5개
                             leafCount += 5
                             leafTextView.text = leafCount.toString()
                             prefs.edit().putInt(KEY_LEAF, leafCount).apply()
@@ -484,35 +485,31 @@ class MainActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.show()
     }
+
     fun checkLevelUp(progressBar: ProgressBar) {
         if (progressBar.progress >= progressBar.max) {
             showCustomPopup(R.layout.dialog_level_up) {
-                // 레벨 증가
                 levelCount += 1
                 levelTextView.text = levelCount.toString()
                 prefs.edit().putInt(KEY_LEVEL, levelCount).apply()
 
-                // 먹이 +3
                 val heartText = findViewById<TextView>(R.id.heartNumberText)
                 val newHeartCount = heartText.text.toString().toIntOrNull()?.plus(1) ?: 1
                 heartText.text = newHeartCount.toString()
                 leafCount += 3
                 leafTextView.text = leafCount.toString()
                 prefs.edit().putInt(KEY_LEAF, leafCount).apply()
-                // 3) 캐릭터 언락 & 팝업 (레벨 10일 때만)
                 if (levelCount == 10) {
                     userRef.get().addOnSuccessListener { snap ->
                         val selected = snap.child("selectedCharacter").getValue(String::class.java) ?: return@addOnSuccessListener
                         val owned = snap.child("characters").children
                             .mapNotNull { it.getValue(String::class.java) }
                             .toMutableSet()
-                        // 아직 2개 미만이면
                         if (owned.size < 2) {
                             val newCharKey = if (selected == "hero") "toro" else "hero"
                             owned.add(newCharKey)
                             userRef.child("characters").setValue(owned.toList())
 
-                            // 팝업 띄우기
                             val displayName = if (newCharKey == "hero") "해로" else "토로"
                             val iconRes = if (newCharKey == "hero")
                                 R.drawable.haero
@@ -523,24 +520,17 @@ class MainActivity : AppCompatActivity() {
                                 this@MainActivity,
                                 message = "캐릭터 획득!",
                                 iconResId = iconRes
-                            ) { /* 확인만 누르면 자동 dismiss */ }
-
-                            // 바뀐 characters 리스트도 로컬에 바로 동기화
-                            // (필요시 추가 UI 업데이트)
+                            ) { }
                         }
                     }
                 }
-
-                // Firebase 동기화
                 syncStatsToFirebase(leafCount, moneyCount, levelCount)
-
-                // 프로그레스바 초기화
                 progressBar.progress = 0
             }
         }
     }
 
-    private fun syncStatsToFirebase(feed: Int, money: Int, level:Int) {
+    private fun syncStatsToFirebase(feed: Int, money: Int, level: Int) {
         val updates = mapOf(
             "feed" to feed,
             "money" to money,
@@ -551,7 +541,4 @@ class MainActivity : AppCompatActivity() {
                 Log.e("FirebaseSync", "동기화 실패: ${e.message}")
             }
     }
-
-
-
 }
